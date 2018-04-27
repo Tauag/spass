@@ -5,7 +5,8 @@ import pickle
 from spass.exceptions import ParameterError
 
 
-def generate_random_password(*, length=9, letters=True, digits=True, punctuation=True, ignored_chars=''):
+def generate_random_password(*, length=9, letters=True, digits=True, 
+                             punctuation=True, ignored_chars=''):
     """
     Generates a cryptographically secure random password
     :param length: Length of password
@@ -26,16 +27,17 @@ def generate_random_password(*, length=9, letters=True, digits=True, punctuation
     if punctuation:
         char_pool += string.punctuation
 
+    # Set lookups are faster than string lookups, so conver to set
+    ignored_chars = set(ignored_chars)
     char_list = [char for char in char_pool if char not in ignored_chars]
 
-    result = ''
-    for i in range(length):
-        result += secrets.choice(char_list)
+    result = ''.join(secrets.choice(char_list) for i in range(length))
 
     return {'password': result, 'entropy': __calc_entropy_password(result, len(char_pool))}
 
 
-def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=True, ignored_symbols=''):
+def generate_passphrase(*, word_count=5, pad_length=0, digits=True, 
+                        punctuation=True, ignored_symbols=''):
     """
     Generates a passphrase with the specified amount of padding
     :param word_count: Number of words in passphrase
@@ -55,7 +57,8 @@ def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=
     if pad_length > 0:
         if not (digits or punctuation):
             raise ParameterError('At least one set of characters must be selected for the padding')
-        placements, pad_bank_size = __scatter_padding(word_count, pad_length, digits, punctuation, ignored_symbols)
+        placements, pad_bank_size = __scatter_padding(word_count, pad_length, 
+                                                      digits, punctuation, ignored_symbols)
 
     result, words_used, coin = '', [], [0, 1]
     for i in range(word_count):
@@ -72,7 +75,8 @@ def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=
     if word_count in placements:
         result += ''.join(sym for sym in placements[word_count])
 
-    entropy, deviation = __calc_entropy_passphrase(word_count, len(word_bank), pad_length, pad_bank_size)
+    entropy, deviation = __calc_entropy_passphrase(word_count, len(word_bank), 
+                                                   pad_length, pad_bank_size)
     return {'password': result, 'entropy': entropy, 'deviation': deviation}
 
 
@@ -81,7 +85,7 @@ def __roll_six_dice():
     Rolls 5 dice and returns result
     :return: Result of the dice rolls
     """
-    die_faces, result = [face for face in range(1, 7)], 0
+    die_faces, result = list(range(1, 7)]), 0
     for _ in range(5):
         result *= 10
         result += secrets.choice(die_faces)
@@ -89,7 +93,8 @@ def __roll_six_dice():
     return result
 
 
-def __scatter_padding(word_count, pad_length, digits, punctuation, ignored_symbols):
+def __scatter_padding(word_count, pad_length, digits, punctuation, 
+                      ignored_symbols):
     """
     Randomly decides where to add padding and which characters to use
     :param word_count: Number of words in passphrase
@@ -105,8 +110,10 @@ def __scatter_padding(word_count, pad_length, digits, punctuation, ignored_symbo
     if punctuation:
         char_pool += string.punctuation
 
+    # Set lookups are faster than string lookups, so conver to set
+    ignored_symbols = set(ignored_symbols)
     char_list = [char for char in char_pool if char not in ignored_symbols]
-    indexes = [index for index in range(word_count + 1)]
+    indexes = list(range(word_count + 1))
     placements = {}
     for _ in range(pad_length):
         idx = secrets.choice(indexes)
@@ -144,7 +151,7 @@ def __calc_entropy_passphrase(word_count, word_bank_size, pad_length, pad_bank_s
     :return: A tuple containing the minimum entropy and deviation
     """
     # Multiply word bank size by 2 since there are uppercase or lower case words
-    inner = math.pow(word_bank_size*2, word_count)
+    inner = math.pow(word_bank_size * 2, word_count)
     entropy = math.log(inner, 2)
 
     inner = math.pow(pad_bank_size, pad_length)
