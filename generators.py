@@ -151,7 +151,3 @@ def __calc_entropy_passphrase(word_count, word_bank_size, pad_length, pad_bank_s
     deviation = math.log(inner, 2)
 
     return entropy, deviation
-
-
-if __name__ == '__main__':
-    print(generate_passphrase(word_count=5, pad_length=3))
