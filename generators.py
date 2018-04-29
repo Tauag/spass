@@ -32,7 +32,7 @@ def generate_random_password(*, length=9, letters=True, digits=True, punctuation
     for i in range(length):
         result += secrets.choice(char_list)
 
-    return {'password': result, 'entropy': __calc_entropy_password(result, len(char_pool))}
+    return {'password': result, 'entropy': __calc_entropy_password(result, len(char_list))}
 
 
 def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=True, ignored_symbols=''):
@@ -62,7 +62,7 @@ def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=
         if i in placements:
             result += ''.join(sym for sym in placements[i])
 
-        word = word_bank[__roll_six_dice()]
+        word = secrets.choice(word_bank)
         if secrets.choice(coin) == 0:
             word = word[0].upper() + word[1:]
 
@@ -74,19 +74,6 @@ def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=
 
     entropy, deviation = __calc_entropy_passphrase(word_count, len(word_bank), pad_length, pad_bank_size)
     return {'password': result, 'entropy': entropy, 'deviation': deviation}
-
-
-def __roll_six_dice():
-    """
-    Rolls 5 dice and returns result
-    :return: Result of the dice rolls
-    """
-    die_faces, result = [face for face in range(1, 7)], 0
-    for _ in range(5):
-        result *= 10
-        result += secrets.choice(die_faces)
-
-    return result
 
 
 def __scatter_padding(word_count, pad_length, digits, punctuation, ignored_symbols):
