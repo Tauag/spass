@@ -29,7 +29,7 @@ def generate_random_password(*, length=9, letters=True, digits=True, punctuation
     char_list = [char for char in char_pool if char not in ignored_chars]
 
     result = ''
-    for i in range(length):
+    for _ in range(length):
         result += secrets.choice(char_list)
 
     return {'password': result, 'entropy': __calc_entropy_password(result, len(char_list))}
