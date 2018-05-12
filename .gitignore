@@ -4,3 +4,4 @@ dist/
 spass.egg-info
 .idea/
 .pypirc
+.DS_Store
