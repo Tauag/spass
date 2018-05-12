@@ -60,8 +60,10 @@ spass.generate_random_password(length=20, ignored_chars='\'\":;<>,./?[]{}\\()')
 ## Installation ##
 Just use pip:
 ```
-pip install spass
+pip3 install spass
 ```
+
+Currently SPass is designed to only work with Python 3.6+. It will not be compatible with Python 2.
 
 ## Contribution ##
 This is my first open source project and I'm really putting myself out in the wild for the sake of
