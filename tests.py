@@ -1,5 +1,6 @@
 import unittest
-from spass.generators import *
+import string
+from spass.generators import generate_random_password, generate_passphrase
 from spass.exceptions import ParameterError
 
 

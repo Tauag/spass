@@ -5,7 +5,7 @@ import pickle
 from spass.exceptions import ParameterError
 
 
-def generate_random_password(*, length=9, letters=True, digits=True, punctuation=True, ignored_chars=''):
+def generate_random_password(length=9, letters=True, digits=True, punctuation=True, ignored_chars=''):
     """
     Generates a cryptographically secure random password
     :param length: Length of password
@@ -35,7 +35,7 @@ def generate_random_password(*, length=9, letters=True, digits=True, punctuation
     return {'password': result, 'entropy': __calc_entropy_password(result, len(char_list))}
 
 
-def generate_passphrase(*, word_count=5, pad_length=0, digits=True, punctuation=True, ignored_symbols=''):
+def generate_passphrase(word_count=5, pad_length=0, digits=True, punctuation=True, ignored_symbols=''):
     """
     Generates a passphrase with the specified amount of padding
     :param word_count: Number of words in passphrase
