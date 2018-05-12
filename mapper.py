@@ -7,7 +7,7 @@ def update_word_map(path='EFF_word_list.txt'):
     :param path: Path to text file with new words. Should have a 5 dice key and be separated by tab
     """
     file_obj = open(path, 'r')
-    word_map = {int(line.split('\t')[0]): line.split('\t')[1].replace('\n', '') for line in file_obj}
+    word_map = [line.split('\t')[1].replace('\n', '') for line in file_obj]
 
     with open('object/word_map.pickle', 'wb') as output:
         pickle.dump(word_map, output, protocol=pickle.HIGHEST_PROTOCOL)

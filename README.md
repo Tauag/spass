@@ -54,7 +54,7 @@ spass.generate_random_password(length=20, punctuation=False)
 
 spass.generate_random_password(length=20, ignored_chars='\'\":;<>,./?[]{}\\()')
 # Or just ignore specific symbols
-# {'password': 'rLr3oku%J7a|*y28SjHv', 'entropy': 131.09177703355275}
+# {'password': 'rLr3oku%J7a|*y28SjHv', 'entropy': 125.33573081389804}
 ```
 
 ## Installation ##
