@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='spass',
-      version='0.1',
+      version='1.0',
       description='Simple and Secure passphrases',
       keywords='cryptography password passphrase secure',
       classifiers=['Development Status :: 3 - Alpha',
